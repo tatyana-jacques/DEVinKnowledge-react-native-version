@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { SafeAreaView, Text, StyleSheet, StatusBar, View, TextInput, ScrollView, Dimensions, TouchableOpacity } from "react-native"
 import { Picker } from "@react-native-picker/picker"
-import { withSafeAreaInsets } from "react-native-safe-area-context"
+import { API } from "../services/api"
 
 
 
@@ -31,8 +31,31 @@ export default function Registration({navigation}) {
             alert ("Insira uma descrição mais detalhada!")
         }
         else {
+            saveCard()
             navigation.navigate ("List")
         }
+
+    }
+
+    function saveCard (){
+        fetch (API + "/posts", {
+            method: "POST",
+            body: JSON.stringify ({
+                title: title,
+                skill: skill,
+                category: category,
+                description: description,
+                video: video
+            }),
+            headers: {
+                "Content-type" : "application/json"
+            }
+        })
+        .then (async () => {
+            alert ("Publicação realizada com sucesso!")
+        })
+        .catch (() => 
+        alert ("Houve um erro ao tentar realizar a publicação"))
 
     }
 
