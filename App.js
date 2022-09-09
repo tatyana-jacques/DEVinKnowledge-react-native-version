@@ -10,7 +10,7 @@ const Stack = createStackNavigator()
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Registration">
+      <Stack.Navigator initialRouteName="list">
         <Stack.Screen 
         name = "List" 
         component = {List}

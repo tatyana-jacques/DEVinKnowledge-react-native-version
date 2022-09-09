@@ -97,15 +97,15 @@ export default function Registration({navigation}) {
 
                 >
                     <Picker.Item label="Categoria" value="" />
-                    <Picker.Item label="FrontEnd" value="frontend" />
-                    <Picker.Item label="Backend" value="backend" />
-                    <Picker.Item label="FullStack" value="fullstack" />
-                    <Picker.Item label="Comportamental/Soft" value="soft" />
+                    <Picker.Item label="FrontEnd" value="Frontend" />
+                    <Picker.Item label="Backend" value="Backend" />
+                    <Picker.Item label="FullStack" value="Fullstack" />
+                    <Picker.Item label="Comportamental/Soft" value="Soft" />
 
                 </Picker>
 
                 <TextInput
-                    style={styles.input}
+                    style={{...styles.input, height:60}}
                     placeholder="Descrição"
                     selectionColor="#fff"
                     maxLength={512}
