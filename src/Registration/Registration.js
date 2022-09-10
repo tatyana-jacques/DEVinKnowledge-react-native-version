@@ -100,12 +100,12 @@ export default function Registration({navigation}) {
                     <Picker.Item label="FrontEnd" value="Frontend" />
                     <Picker.Item label="Backend" value="Backend" />
                     <Picker.Item label="FullStack" value="Fullstack" />
-                    <Picker.Item label="Comportamental/Soft" value="Soft" />
+                    <Picker.Item label="Comportamental/Soft" value="SoftSkills" />
 
                 </Picker>
 
                 <TextInput
-                    style={{...styles.input, height:60}}
+                    style={{...styles.input, height:60, textAlignVertical: "top"}}
                     placeholder="Descrição"
                     selectionColor="#fff"
                     maxLength={512}
@@ -122,14 +122,15 @@ export default function Registration({navigation}) {
                     value={video}
                     onChangeText={setVideo}
                 />
+                
                 <TouchableOpacity style= {styles.button} onPress = {addCard}>
                     <Text style= {styles.buttonText}>Salvar</Text>
                 </TouchableOpacity>
 
 
+
             </ScrollView>
-
-
+         
 
         </SafeAreaView>
     )
@@ -187,11 +188,12 @@ const styles = StyleSheet.create({
     button: {
         alignSelf: "center",
         backgroundColor: "#8E64FA",
-        width: "30%",
+        width: "40%",
         height: 40,
         justifyContent: "center",
         alignItems: "center",
-        margin: 10,
+        marginVertical: 10,
+        marginRight: 30,
 
     },
     buttonText: {
