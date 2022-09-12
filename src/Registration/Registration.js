@@ -5,7 +5,7 @@ import { API } from "../services/api"
 
 
 
-export default function Registration({navigation}) {
+export default function Registration({navigation, route}) {
     
     const [title, setTitle] = useState("")
     const [skill, setSkill] = useState("")

@@ -14,23 +14,29 @@ export default function List({ navigation }) {
     const [soft, setSoft] = useState(0)
 
 
-    // function navigateToVideo (post) {
-    //     ("Video", {post.video})
-    // }
+    function navigateToVideo (post) {
+        navigation.navigate
+        ("Video", {post})
+    }
+
+    function navigateToRegistration () {
+        navigation.navigate
+        ("Registration")
+    }
 
     function getPosts() {
         fetch(API + "/posts" + "?title_like=" + search)
             .then(async (response) => {
                 const data = await response.json()
-                const qtdFront = data.filter (item =>item.category==="Frontend")
-                const qtdBack = data.filter (item =>item.category==="Backend")
-                const qtdFull = data.filter (item =>item.category==="Fullstack")
-                const qtdSoft = data.filter (item =>item.category==="SoftSkills")
+                const qtdFront = data.filter(item => item.category === "Frontend")
+                const qtdBack = data.filter(item => item.category === "Backend")
+                const qtdFull = data.filter(item => item.category === "Fullstack")
+                const qtdSoft = data.filter(item => item.category === "SoftSkills")
                 setPosts(data)
                 setFrontend(qtdFront.length)
                 setBackend(qtdBack.length)
                 setFullstack(qtdFull.length)
-                setSoft (qtdSoft.length)
+                setSoft(qtdSoft.length)
             })
             .catch(() => alert("Houve um erro ao tentar listar os posts"))
     }
@@ -48,35 +54,33 @@ export default function List({ navigation }) {
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar />
-           
+
             <ScrollView>
-            <Text style={styles.bigTittle}>DEVinKnowledge</Text>
-            <View style={styles.search}>
-                <TextInput
-                    style={styles.input}
-                    selectionColor="#fff"
-                    placeholder="Pesquise por uma tarefa"
-                    autoCapitalize="none"
-                    value={search}
-                    onChangeText={setSearch} />
-                <TouchableOpacity onPress={searchWord}>
-                    <Icon name="search" size={32} color="#8E64FA" style={{ marginHorizontal: 5 }} />
-                </TouchableOpacity>
-                <TouchableOpacity>
-                    <Icon name="add" size={32} color="#8E64FA" />
-                </TouchableOpacity>
+                <Text style={styles.bigTittle}>DEVinKnowledge</Text>
+                <View style={styles.search}>
+                    <TextInput
+                        style={styles.input}
+                        selectionColor="#fff"
+                        placeholder="Pesquise por uma tarefa"
+                        autoCapitalize="none"
+                        value={search}
+                        onChangeText={setSearch} />
+                    <TouchableOpacity onPress={searchWord}>
+                        <Icon name="search" size={32} color="#8E64FA" style={{ marginHorizontal: 5 }} />
+                    </TouchableOpacity>
 
-            </View>
+
+                </View>
 
 
 
-            <View style={styles.categoryArea}>
-                <Text style = {styles.categoryText}>Total: {posts.length}</Text>
-                <Text style = {styles.categoryText}>Frontend: {frontend}</Text>
-                <Text style = {styles.categoryText}>Backend: {backend}</Text>
-                <Text style = {styles.categoryText}>Fullstack: {fullstack}</Text>
-                <Text style = {styles.categoryText}>Soft: {soft}</Text>
-            </View>
+                <View style={styles.categoryArea}>
+                    <Text style={styles.categoryText}>Total: {posts.length}</Text>
+                    <Text style={styles.categoryText}>Frontend: {frontend}</Text>
+                    <Text style={styles.categoryText}>Backend: {backend}</Text>
+                    <Text style={styles.categoryText}>Fullstack: {fullstack}</Text>
+                    <Text style={styles.categoryText}>Soft: {soft}</Text>
+                </View>
                 {
                     posts.map(post => (
                         <View style={styles.view} key={post.id}>
@@ -87,7 +91,7 @@ export default function List({ navigation }) {
                             <View style={styles.lttView}>
                                 <Text style={styles.category}>{post.category}  /  {post.skill}</Text>
                                 {post.video !== "" &&
-                                    <TouchableOpacity>
+                                    <TouchableOpacity onLongPress={()=>navigateToVideo(post)}>
                                         <Icon name="videocam" size={32} color="#888" />
                                     </TouchableOpacity>}
                             </View>
@@ -96,7 +100,9 @@ export default function List({ navigation }) {
 
                     ))
                 }
-
+                <TouchableOpacity style = {styles.add} onPress = {navigateToRegistration}>
+                   <Text style = {styles.addText}>Novo post</Text>
+                </TouchableOpacity>
 
 
             </ScrollView>
@@ -158,7 +164,7 @@ const styles = StyleSheet.create({
     {
         fontSize: 36,
         fontWeight: "bold",
-        color: "#888",
+        color: "#8E64FA",
         alignSelf: "center",
         marginVertical: 20,
     },
@@ -181,7 +187,7 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         borderWidth: 1,
         borderColor: "#888",
-       
+
 
 
     },
@@ -189,7 +195,7 @@ const styles = StyleSheet.create({
     {
         flexDirection: "row",
         flexWrap: "wrap",
-        
+
         minHeight: 40,
         margin: 10,
         padding: 15,
@@ -205,9 +211,27 @@ const styles = StyleSheet.create({
         margin: 5,
         paddingHorizontal: 5,
         backgroundColor: "#fff",
-        padding:5,
+        padding: 5,
         borderWidth: 1,
         borderColor: "#888",
+    },
+
+    add:
+    {
+        backgroundColor: "#8E64FA",
+        width: "50%",
+        height: 40,
+        alignSelf: "center",
+        justifyContent: "center"
+    },
+
+    addText:
+    {
+        color:"#fff",
+        alignSelf: "center",
+        fontSize: 18,
+        fontWeight: "bold"
+
     }
 
 
