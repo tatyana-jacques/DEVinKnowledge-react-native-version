@@ -3,16 +3,43 @@ import { SafeAreaView, Text, StyleSheet, StatusBar, View, TextInput, ScrollView,
 import { commonStyles } from "../styles/CommonStyles"
 import { Picker } from "@react-native-picker/picker"
 import { API } from "../services/api"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 
 
-export default function Registration({navigation}) {
+export default function Registration({navigation, route}) {
     
+    const [post, setPost] = useState ({})
     const [title, setTitle] = useState("")
     const [skill, setSkill] = useState("")
     const [category, setCategory] = useState("")
     const [description, setDescription] = useState("")
     const [video, setVideo] = useState("")
+
+    
+
+   useEffect (()=>{checkIsEditing()}, [title]) 
+   
+   async function checkIsEditing (){
+    try {
+        const result = await AsyncStorage.getItem ("@devinknowledge: editing_result", JSON.stringify(isEditing))
+        alert (result)
+        if (result ==="true")
+        {
+            setPost (route.params)
+            setTitle (post.title)
+           
+
+
+        }
+    }
+    catch {
+        alert("Resposta indefinida.")
+    }
+
+   }
+
+
 
     function addCard () {
         if (title<8)

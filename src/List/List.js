@@ -1,4 +1,4 @@
-import { SafeAreaView, Text, StyleSheet, ScrollView, View, TouchableOpacity, StatusBar } from "react-native"
+import { SafeAreaView, Text, StyleSheet, ScrollView, View, TouchableOpacity, StatusBar, FlatList} from "react-native"
 import {commonStyles} from "../styles/CommonStyles"
 import { useState, useEffect } from "react"
 import { API } from "../services/api"
@@ -9,21 +9,23 @@ import {useIsFocused} from "@react-navigation/native"
 
 export default function List({navigation}) {
 
-   
 
-    const [posts, setPosts] = useState([])
+    const [data, setData] = useState([])
     const [search, setSearch] = useState("")
     const [frontend, setFrontend] = useState(0)
     const [backend, setBackend] = useState(0)
     const [fullstack, setFullstack] = useState(0)
     const [soft, setSoft] = useState(0)
     const focusedScreen = useIsFocused()
-
+   
 
    useEffect (()=>{
     if (focusedScreen===true){
         getPosts()
+       
     }},[focusedScreen])
+
+
 
     function getPosts() {
         fetch(API + "/posts" + "?title_like=" + search)
@@ -33,30 +35,31 @@ export default function List({navigation}) {
                 const qtdBack = data.filter(item => item.category === "Backend")
                 const qtdFull = data.filter(item => item.category === "Fullstack")
                 const qtdSoft = data.filter(item => item.category === "SoftSkills")
-                setPosts(data)
+                setData(data)
                 setFrontend(qtdFront.length)
                 setBackend(qtdBack.length)
                 setFullstack(qtdFull.length)
                 setSoft(qtdSoft.length)
+                
             })
             .catch(() => alert("Houve um erro ao tentar listar os posts"))
     }
 
 
-    useEffect(() => {
-        getPosts()
 
-    }, [])
 
     function searchWord() {
         getPosts()
     }
 
+    
+
+   
     return (
         <SafeAreaView style={commonStyles.container}>
             <StatusBar />
 
-            <ScrollView>
+        
                 <Text style={styles.bigTittle}>DEVinKnowledge</Text>
                 <View style={styles.search}>
                     <TextInput
@@ -73,43 +76,50 @@ export default function List({navigation}) {
 
                 </View>
 
-
-
                 <View style={styles.categoryArea}>
-                    <Text style={styles.categoryText}>Total: {posts.length}</Text>
+                    <Text style={styles.categoryText}>Total: {data.length}</Text>
                     <Text style={styles.categoryText}>Frontend: {frontend}</Text>
                     <Text style={styles.categoryText}>Backend: {backend}</Text>
                     <Text style={styles.categoryText}>Fullstack: {fullstack}</Text>
                     <Text style={styles.categoryText}>Soft: {soft}</Text>
                 </View>
-                {
-                    posts.map(post => (
-                        <View style={styles.view} key={post.id}>
-                            <Text style={styles.title}>{post.title}</Text>
+               <FlatList 
+               
+               data = {data}
+               keyExtractor = { item => item.id}
+               renderItem = {({item}) => <ListItem data = {item}/>}       
+                        />
 
-                            <Text style={styles.paragraph}>{post.description}</Text>
-
-                            <View style={styles.lttView}>
-                                <Text style={styles.category}>{post.category}  /  {post.skill}</Text>
-                                {post.video !== "" &&
-                                    <TouchableOpacity onLongPress={()=>navigation.navigate("Video", {thisVideo: post.video})}>
-                                        <Icon name="videocam" size={32} color="#888" />
-                                    </TouchableOpacity>}
-                            </View>
-
-                        </View>
-
-                    ))
-                }
+                 
                 <TouchableOpacity style = {commonStyles.button} onPress = {()=>navigation.navigate("Registration")}>
                    <Text style = {commonStyles.buttonText}>Novo post</Text>
                 </TouchableOpacity>
 
 
-            </ScrollView>
+          
         </SafeAreaView>
     )
+
+    function ListItem ({data}) {
+        return (
+        <TouchableOpacity style={styles.view}  onPress = {()=>navigateToEdit(data)}>
+                            <Text style={styles.title}>{data.title}</Text>
+                            <Text style={styles.paragraph}>{data.description}</Text>
+    
+                            <View style={styles.lttView}>
+                                <Text style={styles.category}>{data.category}  /  {data.skill}</Text>
+                                {data.video !== "" &&
+                                    <TouchableOpacity onLongPress={()=>navigation.navigate("Video", {thisVideo: data.video})}>
+                                        <Icon name="videocam" size={32} color="#888" />
+                                   </TouchableOpacity>}
+                            </View>
+                       </TouchableOpacity>
+        )
+    }
+    
 }
+
+
 
 const styles = StyleSheet.create({
    
