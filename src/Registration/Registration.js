@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react"
 import { SafeAreaView, Text, StyleSheet, StatusBar, View, TextInput, ScrollView, Dimensions, TouchableOpacity } from "react-native"
+import { commonStyles } from "../styles/CommonStyles"
 import { Picker } from "@react-native-picker/picker"
 import { API } from "../services/api"
 
 
 
-export default function Registration({navigation, route}) {
+export default function Registration({navigation}) {
     
     const [title, setTitle] = useState("")
     const [skill, setSkill] = useState("")
@@ -123,8 +124,8 @@ export default function Registration({navigation, route}) {
                     onChangeText={setVideo}
                 />
                 
-                <TouchableOpacity style= {styles.button} onPress = {addCard}>
-                    <Text style= {styles.buttonText}>Salvar</Text>
+                <TouchableOpacity style= {commonStyles.button} onPress = {addCard}>
+                    <Text style= {commonStyles.buttonText}>Salvar</Text>
                 </TouchableOpacity>
 
 
@@ -184,22 +185,6 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         color: "#888"
 
-    },
-    button: {
-        alignSelf: "center",
-        backgroundColor: "#8E64FA",
-        width: "40%",
-        height: 40,
-        justifyContent: "center",
-        alignItems: "center",
-        marginVertical: 10,
-        marginRight: 30,
-
-    },
-    buttonText: {
-        color: "white",
-        fontSize: 20,
     }
-
-
+   
 })

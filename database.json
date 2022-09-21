@@ -9,19 +9,19 @@
       "id": 1
     },
     {
-      "title": "Testando o vídeo.",
-      "skill": "Video",
-      "category": "Frontend",
-      "description": "Esse é um post para testar o link só vídeo.",
-      "video": "http://ruidorosa.blog.br",
+      "title": "My Little Prince.",
+      "skill": "Game Audio",
+      "category": "Comportamental/Soft",
+      "description": "My Little Prince foi um jogo lançado pela Mens Sana Interactive. Tive o prazer de fazer a música e os efeitos sonoros do jogo.",
+      "video": "http://ruidorosa.blog.br/wp-content/uploads/2020/09/My-Little-Prince-Trailer-3.mov",
       "id": 2
     },
     {
-      "title": "Testando o vídeo.",
+      "title": "CATch the Stars.",
       "skill": "Video",
-      "category": "Backend",
-      "description": "Esse é um post para testar o link só vídeo.",
-      "video": "http://ruidorosa.blog.br",
+      "category": "FullStack",
+      "description": "CATch the Stars foi o primeiro jogo da Pinel Games e o maior sucesso dessa produtora.",
+      "video": "http://ruidorosa.blog.br/wp-content/uploads/2021/05/Trailer-v2-CATch-the-Stars-Japan.mp4",
       "id": 3
     }
   ]

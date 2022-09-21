@@ -1,10 +1,15 @@
 import { SafeAreaView, Text, StyleSheet, ScrollView, View, TouchableOpacity, StatusBar } from "react-native"
+import {commonStyles} from "../styles/CommonStyles"
 import { useState, useEffect } from "react"
 import { API } from "../services/api"
 import Icon from "@expo/vector-icons/MaterialIcons"
 import { TextInput } from "react-native-gesture-handler"
+import {useIsFocused} from "@react-navigation/native"
 
-export default function List({ navigation }) {
+
+export default function List({navigation}) {
+
+   
 
     const [posts, setPosts] = useState([])
     const [search, setSearch] = useState("")
@@ -12,17 +17,13 @@ export default function List({ navigation }) {
     const [backend, setBackend] = useState(0)
     const [fullstack, setFullstack] = useState(0)
     const [soft, setSoft] = useState(0)
+    const focusedScreen = useIsFocused()
 
 
-    function navigateToVideo (post) {
-        navigation.navigate
-        ("Video", {post})
-    }
-
-    function navigateToRegistration () {
-        navigation.navigate
-        ("Registration")
-    }
+   useEffect (()=>{
+    if (focusedScreen===true){
+        getPosts()
+    }},[focusedScreen])
 
     function getPosts() {
         fetch(API + "/posts" + "?title_like=" + search)
@@ -52,7 +53,7 @@ export default function List({ navigation }) {
     }
 
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={commonStyles.container}>
             <StatusBar />
 
             <ScrollView>
@@ -91,7 +92,7 @@ export default function List({ navigation }) {
                             <View style={styles.lttView}>
                                 <Text style={styles.category}>{post.category}  /  {post.skill}</Text>
                                 {post.video !== "" &&
-                                    <TouchableOpacity onLongPress={()=>navigateToVideo(post)}>
+                                    <TouchableOpacity onLongPress={()=>navigation.navigate("Video", {thisVideo: post.video})}>
                                         <Icon name="videocam" size={32} color="#888" />
                                     </TouchableOpacity>}
                             </View>
@@ -100,8 +101,8 @@ export default function List({ navigation }) {
 
                     ))
                 }
-                <TouchableOpacity style = {styles.add} onPress = {navigateToRegistration}>
-                   <Text style = {styles.addText}>Novo post</Text>
+                <TouchableOpacity style = {commonStyles.button} onPress = {()=>navigation.navigate("Registration")}>
+                   <Text style = {commonStyles.buttonText}>Novo post</Text>
                 </TouchableOpacity>
 
 
@@ -111,13 +112,7 @@ export default function List({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: "#ccc",
-        padding: 10,
-    },
+   
     view:
     {
         margin: 10,
@@ -127,6 +122,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: "#fff",
         minHeight: 100,
+        width: "90%",
+       
 
     },
     lttView:
@@ -188,14 +185,11 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "#888",
 
-
-
     },
     categoryArea:
     {
         flexDirection: "row",
         flexWrap: "wrap",
-
         minHeight: 40,
         margin: 10,
         padding: 15,
@@ -216,23 +210,7 @@ const styles = StyleSheet.create({
         borderColor: "#888",
     },
 
-    add:
-    {
-        backgroundColor: "#8E64FA",
-        width: "50%",
-        height: 40,
-        alignSelf: "center",
-        justifyContent: "center"
-    },
-
-    addText:
-    {
-        color:"#fff",
-        alignSelf: "center",
-        fontSize: 18,
-        fontWeight: "bold"
-
-    }
+   
 
 
 })
