@@ -26,7 +26,6 @@ export default function List({navigation}) {
     }},[focusedScreen])
 
 
-
     function getPosts() {
         fetch(API + "/posts" + "?title_like=" + search)
             .then(async (response) => {
@@ -45,16 +44,11 @@ export default function List({navigation}) {
             .catch(() => alert("Houve um erro ao tentar listar os posts"))
     }
 
-
-
-
     function searchWord() {
         getPosts()
     }
 
-    
-
-   
+ 
     return (
         <SafeAreaView style={commonStyles.container}>
             <StatusBar />
@@ -94,8 +88,6 @@ export default function List({navigation}) {
                 <TouchableOpacity style = {commonStyles.button} onPress = {()=>navigation.navigate("Registration")}>
                    <Text style = {commonStyles.buttonText}>Novo post</Text>
                 </TouchableOpacity>
-
-
           
         </SafeAreaView>
     )
@@ -131,10 +123,10 @@ const styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: "#fff",
         minHeight: 100,
-        width: "90%",
-       
+        width: "90%", 
 
     },
+
     lttView:
     {
         flexDirection: "row",
@@ -142,15 +134,13 @@ const styles = StyleSheet.create({
         alignItems: "center",
         alignSelf: "stretch",
         margin: 10,
-
-
     },
+
     title:
     {
         color: "#888",
         fontSize: 26,
         fontWeight: "bold",
-
     },
 
     paragraph:
@@ -193,8 +183,8 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         borderWidth: 1,
         borderColor: "#888",
-
     },
+
     categoryArea:
     {
         flexDirection: "row",
@@ -204,7 +194,6 @@ const styles = StyleSheet.create({
         padding: 15,
         alignItems: "center",
         justifyContent: "center"
-
     },
 
     categoryText:
@@ -218,8 +207,6 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "#888",
     },
-
-   
 
 
 })

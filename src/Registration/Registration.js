@@ -16,8 +16,6 @@ export default function Registration({ navigation, route }) {
     const [video, setVideo] = useState("")
     const [isEditing, setIsEditing] = useState(false)
 
-
-
     useEffect(() => { checkIsEditing() }, [])
 
     function checkIsEditing() {
@@ -31,9 +29,6 @@ export default function Registration({ navigation, route }) {
         }
 
     }
-
-
-
 
 
     function addCard() {
@@ -135,15 +130,12 @@ export default function Registration({ navigation, route }) {
 
             ]))
 
-
-
     }
 
 
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar />
-
 
 
             <View style={styles.header}>
