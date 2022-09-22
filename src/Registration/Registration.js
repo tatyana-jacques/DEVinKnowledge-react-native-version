@@ -1,93 +1,144 @@
 import { useState, useEffect } from "react"
-import { SafeAreaView, Text, StyleSheet, StatusBar, View, TextInput, ScrollView, Dimensions, TouchableOpacity } from "react-native"
+import { Alert, SafeAreaView, Text, StyleSheet, StatusBar, View, TextInput, ScrollView, Dimensions, TouchableOpacity } from "react-native"
 import { commonStyles } from "../styles/CommonStyles"
 import { Picker } from "@react-native-picker/picker"
 import { API } from "../services/api"
-import AsyncStorage from "@react-native-async-storage/async-storage"
 
 
+export default function Registration({ navigation, route }) {
 
-export default function Registration({navigation, route}) {
-    
-    const [post, setPost] = useState ({})
+
+    const { data } = route.params || ""
     const [title, setTitle] = useState("")
     const [skill, setSkill] = useState("")
     const [category, setCategory] = useState("")
     const [description, setDescription] = useState("")
     const [video, setVideo] = useState("")
-
-    
-
-   useEffect (()=>{checkIsEditing()}, [title]) 
-   
-   async function checkIsEditing (){
-    try {
-        const result = await AsyncStorage.getItem ("@devinknowledge: editing_result", JSON.stringify(isEditing))
-        alert (result)
-        if (result ==="true")
-        {
-            setPost (route.params)
-            setTitle (post.title)
-           
+    const [isEditing, setIsEditing] = useState(false)
 
 
+
+    useEffect(() => { checkIsEditing() }, [])
+
+    function checkIsEditing() {
+        if (data !== route.params) {
+            setIsEditing(true)
+            setTitle(data.title)
+            setSkill(data.skill)
+            setCategory(data.category)
+            setDescription(data.description)
+            setVideo(data.Video)
         }
-    }
-    catch {
-        alert("Resposta indefinida.")
+
     }
 
-   }
 
 
 
-    function addCard () {
-        if (title<8)
-        {
-            alert ("Insira um título de no mínimo 8 caracteres!")
+
+    function addCard() {
+        if (title < 8) {
+            alert("Insira um título de no mínimo 8 caracteres!")
         }
-        else if (skill<4)
-        {
-            alert ("Insira uma habilidade válida!")
+        else if (skill < 4) {
+            alert("Insira uma habilidade válida!")
         }
-        else if (!category)
-        {
-            alert ("Escolha uma categoria!")
+        else if (!category) {
+            alert("Escolha uma categoria!")
         }
-        else if (description<32)
-        {
-            alert ("Insira uma descrição mais detalhada!")
+        else if (description < 32) {
+            alert("Insira uma descrição mais detalhada!")
         }
         else {
             saveCard()
-            navigation.navigate ("List")
+            navigation.navigate("List")
         }
 
     }
 
-    function saveCard (){
-        fetch (API + "/posts", {
-            method: "POST",
-            body: JSON.stringify ({
-                title: title,
-                skill: skill,
-                category: category,
-                description: description,
-                video: video
-            }),
+    function saveCard() {
+        if (isEditing === false) {
+
+            fetch(API + "/posts", {
+                method: "POST",
+                body: JSON.stringify({
+                    title: title,
+                    skill: skill,
+                    category: category,
+                    description: description,
+                    video: video
+                }),
+                headers: {
+                    "Content-type": "application/json"
+                }
+            })
+                .then(async () => {
+                    alert("Publicação realizada com sucesso!")
+                })
+                .catch(() =>
+                    alert("Houve um erro ao tentar realizar a publicação"))
+        }
+
+
+        else {
+            fetch(API + "/posts/" + data.id, {
+                method: "PUT",
+                body: JSON.stringify({
+                    title: title,
+                    skill: skill,
+                    category: category,
+                    description: description,
+                    video: video
+                }),
+                headers: {
+                    "Content-type": "application/json"
+                }
+            })
+                .then(async () => {
+                    alert("Publicação editada com sucesso!")
+                })
+                .catch(() =>
+                    alert("Houve um erro ao tentar editar a publicação"))
+
+        }
+
+    }
+    function continueDelete() {
+        fetch(API + "/posts/" + data.id, {
+            method: "DELETE",
             headers: {
-                "Content-type" : "application/json"
+                "Content-type": "application/json"
             }
         })
-        .then (async () => {
-            alert ("Publicação realizada com sucesso!")
-        })
-        .catch (() => 
-        alert ("Houve um erro ao tentar realizar a publicação"))
+            .then(async () => {
+                alert("Publicação excluída com sucesso!")
+            })
+            .catch(() =>
+                alert("Houve um erro ao tentar excluir a publicação"))
+        navigation.navigate("List")
+    }
+
+    function deleteCard() {
+        (Alert.alert(
+            "Atenção",
+            "Tem certeza que deseja exculir essa publicação!",
+            [
+                {
+                    text: "Calcelar",
+                    onPress: (() => Alert.alert("Exclusão cancelada com sucesso!"))
+                },
+
+                {
+                    text: "Confirmar",
+                    onPress: continueDelete
+                }
+
+            ]))
+
+
 
     }
 
-    
 
     return (
         <SafeAreaView style={styles.container}>
@@ -133,7 +184,7 @@ export default function Registration({navigation, route}) {
                 </Picker>
 
                 <TextInput
-                    style={{...styles.input, height:60, textAlignVertical: "top"}}
+                    style={{ ...styles.input, height: 60, textAlignVertical: "top" }}
                     placeholder="Descrição"
                     selectionColor="#fff"
                     maxLength={512}
@@ -151,14 +202,23 @@ export default function Registration({navigation, route}) {
                     onChangeText={setVideo}
                 />
                 
-                <TouchableOpacity style= {commonStyles.button} onPress = {addCard}>
-                    <Text style= {commonStyles.buttonText}>Salvar</Text>
+                {!isEditing && 
+                <TouchableOpacity style={commonStyles.button} onPress={addCard}>
+                    <Text style={commonStyles.buttonText}>Salvar</Text>
                 </TouchableOpacity>
+                }
 
+                {isEditing &&
+                    <View style={styles.buttonView}>
+                        <TouchableOpacity style={commonStyles.button} onPress={addCard}>
+                            <Text style={commonStyles.buttonText}>Salvar</Text>
+                        </TouchableOpacity><TouchableOpacity style={{ ...commonStyles.button, backgroundColor: "#9b2226" }} onPress={deleteCard}>
+                            <Text style={commonStyles.buttonText}>Excluir</Text>
+                        </TouchableOpacity>
+                    </View>}
 
 
             </ScrollView>
-         
 
         </SafeAreaView>
     )
@@ -212,6 +272,13 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         color: "#888"
 
+    },
+    buttonView:
+    {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginRight: 40,
+        flex: 1
     }
-   
+
 })

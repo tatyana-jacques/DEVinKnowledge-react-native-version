@@ -1,11 +1,10 @@
 {
   "posts": [
     {
-      "title": "Esse é um teste",
+      "title": "Flexbox",
       "skill": "Programação ",
       "category": "Frontend",
-      "description": "Esse é um teste para verificar o funcionamento do sistema.",
-      "video": "",
+      "description": "Flexbox é um componente de CSS utilizado em designs responsivos. ",
       "id": 1
     },
     {
@@ -23,6 +22,14 @@
       "description": "CATch the Stars foi o primeiro jogo da Pinel Games e o maior sucesso dessa produtora.",
       "video": "https://cdn.cloudflare.steamstatic.com/steam/apps/256831933/movie480_vp9.webm?t=1619620406",
       "id": 3
+    },
+    {
+      "title": "Sobre a postura de estudante. ",
+      "skill": "Comportamento",
+      "category": "SoftSkills",
+      "description": "Para crescer na profissão e continuar sempre aprendendo é muito importante sempre assumir uma postura humilde. Sempre podemos melhorar nosso trabalho e a autonomia na construção de conhecimento é fundamental.  ",
+      "video": "",
+      "id": 4
     }
   ]
 }

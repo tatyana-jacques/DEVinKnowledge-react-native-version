@@ -102,7 +102,7 @@ export default function List({navigation}) {
 
     function ListItem ({data}) {
         return (
-        <TouchableOpacity style={styles.view}  onPress = {()=>navigateToEdit(data)}>
+        <TouchableOpacity style={styles.view}  onPress = {()=>navigation.navigate ("Registration", {data: data})}>
                             <Text style={styles.title}>{data.title}</Text>
                             <Text style={styles.paragraph}>{data.description}</Text>
     
@@ -118,7 +118,6 @@ export default function List({navigation}) {
     }
     
 }
-
 
 
 const styles = StyleSheet.create({
