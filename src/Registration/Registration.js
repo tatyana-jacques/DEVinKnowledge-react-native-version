@@ -137,10 +137,17 @@ export default function Registration({ navigation, route }) {
         <SafeAreaView style={styles.container}>
             <StatusBar />
 
-
-            <View style={styles.header}>
+            {!isEditing && 
+                <View style={styles.header}>
                 <Text style={styles.headerText}>Novo post</Text>
             </View>
+                }
+            {isEditing && 
+                <View style={styles.header}>
+                <Text style={styles.headerText}>Editar post</Text>
+            </View>
+                }
+            
             <ScrollView style={{ width: "100%", marginLeft: "10%" }}>
 
                 <TextInput
@@ -195,7 +202,7 @@ export default function Registration({ navigation, route }) {
                 />
                 
                 {!isEditing && 
-                <TouchableOpacity style={commonStyles.button} onPress={addCard}>
+                <TouchableOpacity style={{...commonStyles.button, marginRight: 23}} onPress={addCard}>
                     <Text style={commonStyles.buttonText}>Salvar</Text>
                 </TouchableOpacity>
                 }
@@ -204,7 +211,7 @@ export default function Registration({ navigation, route }) {
                     <View style={styles.buttonView}>
                         <TouchableOpacity style={commonStyles.button} onPress={addCard}>
                             <Text style={commonStyles.buttonText}>Salvar</Text>
-                        </TouchableOpacity><TouchableOpacity style={{ ...commonStyles.button, backgroundColor: "#9b2226" }} onPress={deleteCard}>
+                        </TouchableOpacity><TouchableOpacity style={{ ...commonStyles.button, backgroundColor: "#9b2226", marginRight:40}} onPress={deleteCard}>
                             <Text style={commonStyles.buttonText}>Excluir</Text>
                         </TouchableOpacity>
                     </View>}
@@ -269,7 +276,6 @@ const styles = StyleSheet.create({
     {
         flexDirection: "row",
         justifyContent: "space-between",
-        marginRight: 40,
         flex: 1
     }
 

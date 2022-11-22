@@ -16,6 +16,8 @@ export const commonStyles = StyleSheet.create ({
         alignSelf: "center",
         justifyContent: "center",
         marginTop: "10%",
+       
+       
     },
 
     buttonText:
