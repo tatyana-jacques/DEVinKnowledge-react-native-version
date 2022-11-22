@@ -1,6 +1,6 @@
 import * as React from "react"
 import {SafeAreaView,Text, StyleSheet, TouchableOpacity} from "react-native"
-import {Video, AVPlaybackStatus} from "expo-av"
+import {Video} from "expo-av"
 import { commonStyles } from "../styles/CommonStyles"
 
 

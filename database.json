@@ -18,7 +18,7 @@
     {
       "title": "CATch the Stars.",
       "skill": "Game Audio",
-      "category": "Frontend",
+      "category": "SoftSkills",
       "description": "CATch the Stars foi o primeiro jogo da Pinel Games e o maior sucesso dessa produtora.",
       "video": "https://cdn.cloudflare.steamstatic.com/steam/apps/256831933/movie480_vp9.webm?t=1619620406",
       "id": 3
@@ -30,6 +30,14 @@
       "description": "Para crescer na profissão e continuar sempre aprendendo é muito importante sempre assumir uma postura humilde. Sempre podemos melhorar nosso trabalho e a autonomia na construção de conhecimento é fundamental.  ",
       "video": "",
       "id": 4
+    },
+    {
+      "title": "C#",
+      "skill": "C#",
+      "category": "Backend",
+      "description": "É uma linguagem desenvolvida pela Microsoft.",
+      "video": "",
+      "id": 5
     }
   ]
 }
