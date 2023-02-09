@@ -58,7 +58,6 @@
 
 <br>
 
-
 <div align = "center" >
 <video controls width=400px>
         <source src="assets/devinknowledge.mp4" type="video/mp4"/>

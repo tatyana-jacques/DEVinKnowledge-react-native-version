@@ -1,14 +1,12 @@
-import { SafeAreaView, Text, StyleSheet, ScrollView, View, TouchableOpacity, StatusBar, FlatList} from "react-native"
-import {commonStyles} from "../styles/CommonStyles"
+import { SafeAreaView, Text, StyleSheet, ScrollView, View, TouchableOpacity, StatusBar, FlatList } from "react-native"
+import { commonStyles } from "../styles/CommonStyles"
 import { useState, useEffect } from "react"
 import { API } from "../services/api"
 import Icon from "@expo/vector-icons/MaterialIcons"
 import { TextInput } from "react-native-gesture-handler"
-import {useIsFocused} from "@react-navigation/native"
+import { useIsFocused } from "@react-navigation/native"
 
-
-export default function List({navigation}) {
-
+export default function List({ navigation }) {
 
     const [data, setData] = useState([])
     const [search, setSearch] = useState("")
@@ -17,13 +15,14 @@ export default function List({navigation}) {
     const [fullstack, setFullstack] = useState(0)
     const [soft, setSoft] = useState(0)
     const focusedScreen = useIsFocused()
-   
 
-   useEffect (()=>{
-    if (focusedScreen===true){
-        getPosts()
-       
-    }},[focusedScreen])
+
+    useEffect(() => {
+        if (focusedScreen === true) {
+            getPosts()
+
+        }
+    }, [focusedScreen])
 
 
     function getPosts() {
@@ -39,7 +38,7 @@ export default function List({navigation}) {
                 setBackend(qtdBack.length)
                 setFullstack(qtdFull.length)
                 setSoft(qtdSoft.length)
-                
+
             })
             .catch(() => alert("Houve um erro ao tentar listar os posts"))
     }
@@ -48,72 +47,71 @@ export default function List({navigation}) {
         getPosts()
     }
 
- 
+    function ListItem({ data }) {
+        return (
+            <TouchableOpacity style={styles.view} onPress={() => navigation.navigate("Registration", { data: data })}>
+                <Text style={styles.title}>{data.title}</Text>
+                <Text style={styles.paragraph}>{data.description}</Text>
+
+                <View style={styles.lttView}>
+                    <Text style={styles.category}>{data.category}  /  {data.skill}</Text>
+                    {data.video !== "" &&
+                        <TouchableOpacity onLongPress={() => navigation.navigate("Video", { thisVideo: data.video })}>
+                            <Icon name="videocam" size={32} color="#888" />
+                        </TouchableOpacity>}
+                </View>
+            </TouchableOpacity>
+        )
+    }
+
     return (
         <SafeAreaView style={commonStyles.container}>
             <StatusBar />
 
-        
-                <Text style={styles.bigTittle}>DEVinKnowledge</Text>
-                <View style={styles.search}>
-                    <TextInput
-                        style={styles.input}
-                        selectionColor="#fff"
-                        placeholder="Pesquise por uma tarefa"
-                        autoCapitalize="none"
-                        value={search}
-                        onChangeText={setSearch} />
-                    <TouchableOpacity onPress={searchWord}>
-                        <Icon name="search" size={32} color="#8E64FA" style={{ marginHorizontal: 5 }} />
-                    </TouchableOpacity>
 
-
-                </View>
-
-                <View style={styles.categoryArea}>
-                    <Text style={styles.categoryText}>Total: {data.length}</Text>
-                    <Text style={styles.categoryText}>Frontend: {frontend}</Text>
-                    <Text style={styles.categoryText}>Backend: {backend}</Text>
-                    <Text style={styles.categoryText}>Fullstack: {fullstack}</Text>
-                    <Text style={styles.categoryText}>Soft: {soft}</Text>
-                </View>
-               <FlatList 
-               
-               data = {data}
-               keyExtractor = { item => item.id}
-               renderItem = {({item}) => <ListItem data = {item}/>}       
-                        />
-
-                 
-                <TouchableOpacity style = {commonStyles.button} onPress = {()=>navigation.navigate("Registration")}>
-                   <Text style = {commonStyles.buttonText}>Novo post</Text>
+            <Text style={styles.bigTittle}>DEVinKnowledge</Text>
+            <View style={styles.search}>
+                <TextInput
+                    style={styles.input}
+                    selectionColor="#fff"
+                    placeholder="Pesquise por uma tarefa"
+                    autoCapitalize="none"
+                    value={search}
+                    onChangeText={setSearch} />
+                <TouchableOpacity onPress={searchWord}>
+                    <Icon name="search" size={32} color="#8E64FA" style={{ marginHorizontal: 5 }} />
                 </TouchableOpacity>
-          
+
+
+            </View>
+
+            <View style={styles.categoryArea}>
+                <Text style={styles.categoryText}>Total: {data.length}</Text>
+                <Text style={styles.categoryText}>Frontend: {frontend}</Text>
+                <Text style={styles.categoryText}>Backend: {backend}</Text>
+                <Text style={styles.categoryText}>Fullstack: {fullstack}</Text>
+                <Text style={styles.categoryText}>Soft: {soft}</Text>
+            </View>
+            <FlatList
+
+                data={data}
+                keyExtractor={item => item.id}
+                renderItem={({ item }) => <ListItem data={item} />}
+            />
+
+
+            <TouchableOpacity style={commonStyles.button} onPress={() => navigation.navigate("Registration")}>
+                <Text style={commonStyles.buttonText}>Novo post</Text>
+            </TouchableOpacity>
+
         </SafeAreaView>
     )
 
-    function ListItem ({data}) {
-        return (
-        <TouchableOpacity style={styles.view}  onPress = {()=>navigation.navigate ("Registration", {data: data})}>
-                            <Text style={styles.title}>{data.title}</Text>
-                            <Text style={styles.paragraph}>{data.description}</Text>
-    
-                            <View style={styles.lttView}>
-                                <Text style={styles.category}>{data.category}  /  {data.skill}</Text>
-                                {data.video !== "" &&
-                                    <TouchableOpacity onLongPress={()=>navigation.navigate("Video", {thisVideo: data.video})}>
-                                        <Icon name="videocam" size={32} color="#888" />
-                                   </TouchableOpacity>}
-                            </View>
-                       </TouchableOpacity>
-        )
-    }
-    
 }
 
 
 const styles = StyleSheet.create({
-   
+
     view:
     {
         margin: 10,
@@ -123,7 +121,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: "#fff",
         minHeight: 100,
-        width: "90%", 
+        width: "90%",
 
     },
 
